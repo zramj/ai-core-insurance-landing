@@ -1,7 +1,7 @@
-/* AI CORE｜Insurance Landing Page V1 — 互動腳本
-   - Hero：進場一次
-   - #clarity：整理過程（進入畫面自動播放一次；可點步驟、可重播）
-   - #workbench：保戶工作台概念展示（預設資料，不連線、不儲存）
+/* AI CORE｜保險業務的 LINE AI 助理 — 互動
+   1. 首屏聊天示範：轉傳訊息 → 助理整理 → 確認建立（三個情境輪流）
+   2. 1 分鐘檢測：6 題 → 四種類型＋一年花多少小時 → 用 LINE 領取建議／早鳥
+   3. 檢測答案匿名送到 Google 表單（設定好 FORM 才會送）
 */
 (() => {
   'use strict';
@@ -9,408 +9,235 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const wait = (ms) => new Promise((res) => setTimeout(res, reduce.matches ? 0 : ms));
+  const LINE_ID = '%40732ntowu';
+  const oa = (text) => `https://line.me/R/oaMessage/${LINE_ID}/?${encodeURIComponent(text)}`;
 
-  /* ---------------- Hero 進場 ---------------- */
-  const hero = $('.hero[data-enter]');
+  /* ---------------- 首屏進場 ---------------- */
+  const hero = $('.hero');
   if (hero) requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('is-in')));
 
-  /* ---------------- 02 整理過程 ---------------- */
-  // 每個物件在各階段的位置：[x(cqw), y(cqh), 旋轉, 縮放, 透明度, z, 延遲(ms)]
-  const H = null; // 隱藏用占位
-  const WIDE = {
-    0: { f1: [2, 5, 0, 1, 1, 3], f2: [56, 0, 0, .9, .75, 1], f3: [36, 27, 0, 1.04, 1, 4], f4: [6, 47, 0, .92, .8, 2], f5: [60, 44, 0, 1, 1, 3], f6: [34, 71, 0, 1.06, 1, 5] },
-    1: { f1: [5, 3], f2: [53, 3], f3: [5, 33], f4: [53, 33], f5: [5, 63], f6: [53, 63] },
-    2: { f1: [5, 3], f2: [53, 3], f3: [5, 33], f4: [53, 33], f5: [5, 63], f6: [53, 63] },
-    3: { L1: [0, 0], L2: [34.5, 0], L3: [69, 0], f1: [0, 11, 0, .84], f2: [0, 31, 0, .84], f3: [34.5, 11, 0, .84], f4: [34.5, 30, 0, .84], f5: [69, 11, 0, .84], f6: [69, 34, 0, .9] },
-    4: { L1: [0, 0], L2: [34.5, 0], L3: [69, 0],
-         f1: [0, 11, 0, .84, .36], f2: [0, 31, 0, .84, .36], f3: [34.5, 11, 0, .84, .36], f4: [34.5, 30, 0, .84, .36], f5: [69, 11, 0, .84, .36], f6: [69, 74, 0, .9, 1, 3],
-         T1: [0, 52, 0, 1, 1, 6, 250], T2: [34.5, 52, 0, 1, 1, 6, 350], T3: [69, 52, 0, 1, 1, 6, 450] }
-  };
-  const TALL = {
-    0: { f1: [0, 2, 0, 1, 1, 3], f2: [46, 14, 0, .9, .75, 1], f3: [4, 33, 0, 1.02, 1, 4], f4: [44, 50, 0, .9, .8, 2], f5: [2, 68, 0, 1, 1, 3], f6: [62, 78, 0, 1.04, 1, 5] },
-    1: { f1: [0, 2, 0, .8], f2: [51, 2, 0, .8], f3: [0, 33, 0, .8], f4: [51, 33, 0, .8], f5: [0, 64, 0, .8], f6: [51, 64, 0, .8] },
-    2: { f1: [0, 2, 0, .8], f2: [51, 2, 0, .8], f3: [0, 33, 0, .8], f4: [51, 33, 0, .8], f5: [0, 64, 0, .8], f6: [51, 64, 0, .8] },
-    3: { L1: [0, 0], L2: [0, 33.5], L3: [0, 67], f1: [0, 10, 0, .7], f2: [51, 10, 0, .74], f3: [0, 43.5, 0, .74], f4: [51, 43.5, 0, .7], f5: [0, 77, 0, .68], f6: [53, 77, 0, .8] },
-    4: { L1: [0, 0], L2: [0, 33.5], L3: [0, 67],
-         f1: [0, 10, 0, .7, 0], f2: [51, 10, 0, .74, 0], f3: [0, 43.5, 0, .74, 0], f4: [51, 43.5, 0, .7, 0], f5: [0, 77, 0, .68, 0], f6: [53, 77, 0, .8, 0],
-         T1: [0, 10.5, 0, 1, 1, 6, 200], T2: [0, 44, 0, 1, 1, 6, 300], T3: [0, 77.5, 0, 1, 1, 6, 400] }
-  };
-  const DESC = [
-    '平常的樣子：資訊散在各處，只能靠記憶。',
-    '訊息、筆記、行事曆，集中到同一個地方。',
-    '找出是哪位客戶、什麼時間、要處理什麼。',
-    '依保戶歸檔，每個人的服務紀錄一目了然。',
-    '每位保戶，都有一件清楚的下一步。'
-  ];
-
-  const clarity = $('#clarity');
-  const stage = $('#stage');
-  if (clarity && stage) {
-    const items = $$('[data-k]', stage);
-    const steps = $$('.step', clarity);
-    const desc = $('#clarityDesc');
-    let current = -1;
-    let layout = '';
-
-    const hiddenSpec = (k, s, table) => {
-      // 尚未出現的車道與待辦：停在它們第一次出現的位置附近，透明
-      for (let i = s; i <= 4; i++) if (table[i][k]) { const v = table[i][k]; return [v[0], v[1] + 3, 0, .97, 0, 1]; }
-      for (let i = s; i >= 0; i--) if (table[i][k]) { const v = table[i][k]; return [v[0], v[1], 0, .97, 0, 1]; }
-      return [0, 0, 0, 1, 0, 1];
-    };
-
-    const apply = (s) => {
-      const table = layout === 'tall' ? TALL : WIDE;
-      items.forEach((el) => {
-        const k = el.dataset.k;
-        let v = table[s][k];
-        if (!v) v = (k[0] === 'f') ? table[0][k] : hiddenSpec(k, s, table);
-        const [x, y, r = 0, sc = 1, o = 1, z = 1, dl = 0] = v;
-        el.style.setProperty('--x', x);
-        el.style.setProperty('--y', y);
-        el.style.setProperty('--r', r);
-        el.style.setProperty('--s', sc);
-        el.style.setProperty('--o', o);
-        el.style.setProperty('--z', z);
-        el.style.transitionDelay = reduce.matches ? '0ms' : `${dl}ms`;
-      });
-    };
-
-    const setStage = (s) => {
-      if (s === current) return;
-      const prev = current;
-      current = s;
-      stage.dataset.s = s;
-      apply(s);
-      if (s === 2 && prev < 2 && !reduce.matches) {
-        stage.classList.remove('scan'); void stage.offsetWidth; stage.classList.add('scan');
-      }
-      steps.forEach((b, i) => {
-        const n = i + 1;
-        b.classList.toggle('is-on', n === s);
-        b.classList.toggle('is-past', n < s);
-        if (n === s) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
-      });
-      if (desc) desc.textContent = DESC[s];
-    };
-
-    const measure = () => {
-      const w = stage.clientWidth, h = stage.clientHeight;
-      const next = (w / Math.max(h, 1)) >= 0.95 ? 'wide' : 'tall';
-      if (next !== layout) {
-        layout = next;
-        stage.dataset.layout = layout;
-        if (current >= 0) apply(current);
-      }
-    };
-
-    // 進入畫面時自動播放一次；可點步驟跳轉，可重播；不鎖定、不改變捲動
-    const replay = $('#clarityReplay');
-    let timers = [];
-    const stop = () => { timers.forEach(clearTimeout); timers = []; };
-    const play = () => {
-      stop();
-      if (reduce.matches) { setStage(4); return; }
-      setStage(0);
-      [1, 2, 3, 4].forEach((n, i) => timers.push(setTimeout(() => setStage(n), 700 + i * 1800)));
-    };
-    steps.forEach((b) => b.addEventListener('click', () => { stop(); setStage(Number(b.dataset.step)); }));
-    if (replay) replay.addEventListener('click', play);
-    measure();
-    setStage(reduce.matches ? 4 : 0);
-    let played = false;
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting && !played) { played = true; play(); io.disconnect(); }
-      });
-    }, { threshold: 0.45 });
-    io.observe(clarity);
-    new ResizeObserver(measure).observe(stage);
-  }
-
-  /* ---------------- 03 保戶工作台 ---------------- */
-  const app = $('#app');
-  if (!app) return;
-
-  const CHECK_SVG = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l2.8 2.7L12.5 5" fill="none" stroke="#191B1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-
-  const CLIENTS = [
+  /* ---------------- 聊天示範 ---------------- */
+  const chat = $('#chat');
+  const dock = $('#dock');
+  const SCENES = [
     {
-      id: 'wang', name: '王先生', initial: '王', meta: '會談邀約',
-      frag: '<div class="frag frag--msg"><div class="frag__head"><span class="av">王</span><b>王先生</b><span class="src">訊息</span><time>21:47</time></div><p><span class="hl">下週三</span>有空，想再聊聊之前的<span class="hl">保障內容</span>。</p><span class="tag">王先生・會談邀約</span></div>',
-      pos: [2, 4, 0],
-      past: { time: '上次會談', text: '會談筆記：想多了解醫療保障。' },
-      src: { time: '今天 21:47', label: '訊息' },
-      ai: ['會談邀約', '時間：下週三'],
-      todo: '確認下週三會談時間', remind: '明天 10:00', basis: '訊息提到「下週三有空」', done: '已確認會談時間'
+      who: '王', from: '來自王先生的 LINE 訊息', text: '下週三下午有空，想再聊聊之前的保障內容。', btn: '轉傳給助理',
+      me: '<span class="fw">轉傳｜王先生</span>下週三下午有空，想再聊聊之前的保障內容。',
+      card: '整理好了，幫你確認一下：<dl class="rows"><dt>客戶</dt><dd>王先生</dd><dt>事項</dt><dd>再聊保障內容</dd><dt>時間</dt><dd>下週三下午 <span class="pending">（時間待確認）</span></dd><dt>提醒</dt><dd>明天 09:00 提醒你回覆</dd></dl>',
+      done: '已建立。明天 09:00 會提醒你回覆王先生。', next: '再試一則：見完客戶的語音'
     },
     {
-      id: 'chen', name: '陳小姐', initial: '陳', meta: '補件追蹤',
-      frag: '<div class="frag frag--note"><span class="src">工作筆記</span><p>陳小姐　<span class="hl">補件資料</span><span class="hl">還沒收到</span>。</p><span class="tag">陳小姐・補件追蹤</span></div>',
-      pos: [44, 22, 0],
-      past: { time: '上週', text: '寄出補件清單給陳小姐。' },
-      src: { time: '昨天 18:20', label: '工作筆記' },
-      ai: ['補件追蹤', '狀態：資料未收到'],
-      todo: '明天確認資料提供進度', remind: '明天 14:00', basis: '筆記記錄「補件資料還沒收到」', done: '已確認補件進度'
+      who: '錄', from: '見完陳小姐，在車上錄一段語音', text: '語音 0:42', voice: true, btn: '傳給助理',
+      me: '<span class="mic" aria-hidden="true"></span>語音 0:42',
+      card: '<b>會談紀錄｜陳小姐</b><dl class="rows"><dt>重點</dt><dd>想加強醫療保障</dd><dt>補件</dt><dd>還缺身分證影本</dd><dt>下一步</dt><dd>週五前提醒她補件</dd></dl>',
+      done: '已存進陳小姐的紀錄，週四晚上提醒你。', next: '再試一則：見客戶前問助理'
     },
     {
-      id: 'lin', name: '林先生', initial: '林', meta: '定期服務',
-      frag: '<div class="frag frag--cal"><div class="cal__top"><span>行事曆</span><span>14:00</span></div><div class="cal__day"><b>週五</b><small>下週</small></div><p><span class="hl">林先生</span>｜<span class="hl">定期保單檢視</span></p><span class="tag">林先生・定期服務</span></div>',
-      pos: [8, 54, 0],
-      past: { time: '去年', text: '完成年度保單檢視。' },
-      src: { time: '行事曆', label: '下週五 14:00' },
-      ai: ['定期服務', '時間：下週五 14:00'],
-      todo: '準備定期服務會談', remind: '下週四 17:00', basis: '行事曆排定「定期保單檢視」', done: '會談資料已準備好'
+      who: '問', from: '出門見王先生前，問一句', text: '王先生上次聊什麼？', btn: '問助理',
+      me: '王先生上次聊什麼？',
+      answer: '上次（10 月）聊到想加強醫療保障；他剛剛說下週三下午有空。<br><b>還沒處理</b>：回覆確認時間。',
+      next: '重新看一次'
     }
   ];
+  let scene = 0;
+  let busy = false;
 
-  const el = {
-    clients: $('#clients'), tray: $('#tray'), trayCards: $('#trayCards'), detail: $('#detail'),
-    who: $('#who'), timeline: $('#timeline'), actStart: $('#actStart'),
-    actNext: $('#actNext'), actFinish: $('#actFinish'), organize: $('#organize'), reset: $('#reset'),
-    replay: $('#replay'), ticks: $$('#ticks li'), sideCount: $('#sideCount'), sideProgress: $('#sideProgress'),
-    barFill: $('#barFill'), doneCount: $('#doneCount'), steps: $$('.app__steps li', app), live: $('#live')
+  const bubble = (cls, html) => {
+    const el = document.createElement('div');
+    el.className = `b ${cls} in`;
+    el.innerHTML = html;
+    chat.appendChild(el);
+    while (chat.children.length > 8) chat.removeChild(chat.firstChild);
+    return el;
+  };
+  const greet = () => {
+    bubble('b--bot', '<b>早安，今天 2 件事</b><br>・提醒陳小姐補件（已 3 天）<br>・張太太週六生日');
+    bubble('b--bot', '客戶交代的新事情，轉傳給我就好。');
+  };
+  const steps = () => `<div class="dock__steps" aria-hidden="true">${SCENES.map((_, i) => `<span class="${i === scene ? 'on' : ''}"></span>`).join('')}</div>`;
+
+  const showDock = () => {
+    const s = SCENES[scene];
+    dock.innerHTML = `
+      <div class="share"><span class="share__icon" aria-hidden="true">${s.who}</span><p><small>${s.from}</small>${s.voice ? '<span class="b--voice"><span class="mic" aria-hidden="true"></span>語音 0:42</span>' : s.text}</p></div>
+      <button class="dock__btn${scene === 0 ? ' dock__btn--first' : ''}" type="button" data-act="send">${s.btn}</button>`;
+  };
+  const showHint = (text) => { dock.innerHTML = `<p class="dock__hint">${text}</p>${steps()}`; };
+  const showNext = () => {
+    const s = SCENES[scene];
+    dock.innerHTML = `<button class="dock__btn dock__btn--ghost" type="button" data-act="next">${s.next}</button>${steps()}`;
   };
 
-  let st;
-  const fresh = () => ({
-    phase: 'tray', sel: 0,
-    status: CLIENTS.map(() => 'new'),
-    log: CLIENTS.map(() => [])
-  });
+  const typing = async (ms) => {
+    const t = document.createElement('div');
+    t.className = 'typing in';
+    t.setAttribute('aria-label', '助理正在輸入');
+    t.innerHTML = '<i></i><i></i><i></i>';
+    chat.appendChild(t);
+    await wait(ms);
+    t.remove();
+  };
 
-  const say = (msg) => { el.live.textContent = ''; setTimeout(() => { el.live.textContent = msg; }, 30); };
-
-  function renderTray() {
-    el.trayCards.innerHTML = CLIENTS.map((c, i) =>
-      `<div class="tray__card" data-i="${i}" style="--x:${c.pos[0]};--y:${c.pos[1]};--r:${c.pos[2]}">${c.frag}</div>`).join('');
-  }
-
-  function statusChip(s) {
-    if (s === 'done') return '<span class="status status--done">已完成</span>';
-    if (s === 'todo') return '<span class="status status--todo">待辦中</span>';
-    return '<span class="status">待確認</span>';
-  }
-
-  function renderClients(reveal = true) {
-    if (st.phase === 'tray' || st.phase === 'working') {
-      el.clients.innerHTML = CLIENTS.map(() =>
-        '<div class="client client--ph" aria-hidden="true"><span class="av"></span><span><span class="ph-bar"></span><span class="ph-bar"></span></span></div>').join('');
-      el.sideCount.textContent = '尚未整理';
-      el.sideProgress.hidden = true;
+  const send = async () => {
+    if (busy) return;
+    busy = true;
+    const s = SCENES[scene];
+    bubble(`b--me${s.voice ? ' b--voice' : ''}`, s.me);
+    showHint('助理整理中…');
+    await typing(1000);
+    if (s.answer) {
+      bubble('b--bot', s.answer);
+      showNext();
+      busy = false;
+      $('[data-act="next"]', dock).focus({ preventScroll: true });
       return;
     }
-    el.clients.innerHTML = CLIENTS.map((c, i) =>
-      `<button class="client" type="button" data-i="${i}" aria-pressed="${i === st.sel}" ${reveal ? '' : 'style="opacity:0"'}>
-        <span class="av">${c.initial}</span>
-        <span><span class="client__name">${c.name}</span><span class="client__meta">${c.meta}</span></span>
-        ${statusChip(st.status[i])}
-      </button>`).join('');
-    el.sideCount.textContent = '3 位';
-    el.sideProgress.hidden = false;
-    const done = st.status.filter((s) => s === 'done').length;
-    el.doneCount.textContent = done;
-    el.barFill.style.setProperty('--p', done / 3);
-  }
+    const card = bubble('b--bot b--card', `${s.card}<button class="cbtn" type="button" data-act="confirm">確認建立</button>`);
+    showHint('按「確認建立」，才會存下來。');
+    busy = false;
+    $('.cbtn', card).focus({ preventScroll: true });
+  };
 
-  function renderSteps() {
-    const anyNew = st.status.some((s) => s === 'new');
-    const allDone = st.status.every((s) => s === 'done');
-    const organized = st.phase === 'review' || st.phase === 'finish';
-    const state = [
-      organized ? 'done' : 'on',
-      !organized ? '' : (anyNew ? 'on' : 'done'),
-      !organized || anyNew ? '' : (allDone ? 'done' : 'on')
-    ];
-    el.steps.forEach((li, i) => {
-      li.classList.toggle('is-on', state[i] === 'on');
-      li.classList.toggle('is-done', state[i] === 'done');
-      if (state[i] === 'on') li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
+  const confirm = async (btn) => {
+    if (busy) return;
+    busy = true;
+    btn.disabled = true;
+    btn.textContent = '已確認';
+    await typing(600);
+    bubble('b--bot', SCENES[scene].done);
+    showNext();
+    busy = false;
+    $('[data-act="next"]', dock).focus({ preventScroll: true });
+  };
+
+  const next = () => {
+    scene = (scene + 1) % SCENES.length;
+    if (scene === 0) { chat.innerHTML = ''; greet(); }
+    showDock();
+    $('[data-act="send"]', dock).focus({ preventScroll: true });
+  };
+
+  if (chat && dock) {
+    greet();
+    showDock();
+    dock.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-act]');
+      if (!b) return;
+      if (b.dataset.act === 'send') send();
+      if (b.dataset.act === 'next') next();
+    });
+    chat.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-act="confirm"]');
+      if (b && !b.disabled) confirm(b);
     });
   }
 
-  function renderDetail(animateLast = false) {
-    const i = st.sel, c = CLIENTS[i];
-    el.who.innerHTML = `<span class="av">${c.initial}</span><span><b>${c.name}</b><small>既有保戶・示範資料</small></span>`;
-    const base = [
-      `<li class="tl"><p class="tl__time"><span>${c.past.time}</span></p><p class="tl__text">${c.past.text}</p></li>`,
-      `<li class="tl tl--new"><p class="tl__time"><span>${c.src.time}・${c.src.label}</span></p>${c.frag}<div class="ai-row"><span>AI 整理</span>${c.ai.map((a) => `<span>${a}</span>`).join('')}</div></li>`
-    ];
-    const extra = st.log[i].map((e, n) =>
-      `<li class="tl ${e.cls}${animateLast && n === st.log[i].length - 1 ? ' tl-in' : ''}"><p class="tl__time"><span>剛剛</span></p><p class="tl__text">${e.text}</p></li>`);
-    el.timeline.innerHTML = base.concat(extra).join('');
-  }
+  /* ---------------- 1 分鐘檢測 ---------------- */
+  // 匿名記錄：拿到「預先填入連結」後填入 action 與 entry 代碼；留空則不送出
+  const FORM = {
+    action: '',
+    entries: { where: '', pain: '', hours: '', miss: '', worry: '', price: '', type: '', version: '' }
+  };
+  const VERSION = 'insurance-v3';
 
-  function renderAction() {
-    const i = st.sel, c = CLIENTS[i], s = st.status[i];
-    el.actStart.hidden = !(st.phase === 'tray' || st.phase === 'working');
-    el.organize.textContent = st.phase === 'working' ? '整理中…' : '開始 AI 整理';
-    el.actFinish.hidden = st.phase !== 'finish';
-    el.actNext.hidden = st.phase !== 'review';
-    if (st.phase !== 'review') return;
+  const QUESTIONS = [
+    { k: 'where', q: '客戶的資料和約定，主要記在哪裡？', o: ['大多在 LINE 對話裡', '紙本或手機備忘錄', 'Excel 或公司系統', '主要靠記憶'] },
+    { k: 'pain', q: '最困擾你的是哪一件？', o: ['見完客戶要補紀錄', 'LINE 訊息太多，找不到之前說過的事', '補件追蹤', '生日、保單週年的提醒', '見客戶前要翻找資料'] },
+    { k: 'hours', q: '每週大概花多少時間整理客戶資料和提醒？', o: ['1 小時內', '1–3 小時', '3–5 小時', '5 小時以上'] },
+    { k: 'miss', q: '最近三個月，有沒有因為忘記，影響到客戶？', o: ['沒有', '1–2 次', '3 次以上', '不確定'] },
+    { k: 'worry', q: '把客戶資料交給 AI 整理，你最擔心什麼？', o: ['個資安全', '公司規定不允許', 'AI 弄錯', '操作麻煩', '費用'] },
+    { k: 'price', q: '這樣的 LINE AI 助理，每月多少你覺得合理？', o: ['要免費才會用', '300 元以內', '300–800 元', '800–1,500 元', '1,500 元以上'] }
+  ];
+  const TYPES = [
+    { key: 'line-archaeology', name: 'LINE 考古型', diag: '客戶說過的事都在 LINE 裡，要找就得一直往上滑。訊息一多，約好的事就被洗掉了。' },
+    { key: 'sticky-notes', name: '便條紙滿天飛型', diag: '記在紙本、備忘錄、行事曆，散在好幾個地方。要找的時候，得先想起來記在哪。' },
+    { key: 'overtime', name: '下班還在整理型', diag: '你有認真用表格或系統記，但整理很花時間，常常要下班後再補。' },
+    { key: 'memory', name: '記憶力硬撐型', diag: '大部分都記在腦子裡。平常沒問題，一忙起來就容易漏。' }
+  ];
+  const TIPS = [
+    '見完客戶，在車上先錄一段 1 分鐘語音，回家再整理也不怕忘。',
+    '建一個只有自己的 LINE 群組，客戶交代的事當下就轉傳進去，之後只看那裡。',
+    '每一筆補件都寫上期限，每週一早上看一次還沒收到的。',
+    '把生日和保單週年一次輸入手機行事曆，設成提前 3 天提醒。',
+    '每次見完客戶，留一句「下次要聊什麼」，下次見面前看這一句就好。'
+  ];
+  const SAFE = [
+    'AI 助理只處理你主動轉傳的內容，不會讀取你的 LINE；資料放在哪裡，導入前會先跟你確認。',
+    '導入前會先確認你所屬公司的規定，必要時只記錄代稱或必要資訊。',
+    '助理整理的每一筆，都要你確認後才會建立。',
+    '就是在 LINE 轉傳或傳語音，不用學新的 App。',
+    '早鳥方案會依你需要的功能報價，先聊清楚再決定。'
+  ];
+  const HOURS = [0.5, 2, 4, 6];
 
-    if (s === 'new') {
-      el.actNext.innerHTML = `
-        <p class="next__label">建議下一步</p>
-        <p class="next__title">${c.todo}</p>
-        <dl class="next__meta">
-          <div><dt>保戶</dt><dd>${c.name}</dd></div>
-          <div><dt>提醒</dt><dd>${c.remind}</dd></div>
-          <div><dt>依據</dt><dd>${c.basis}</dd></div>
-        </dl>
-        <p class="act__lead">確認無誤後，才會建立成待辦。</p>
-        <div class="next__spacer"></div>
-        <button class="btn btn--gold btn--block" type="button" data-act="confirm">確認並建立待辦</button>`;
-    } else {
-      const done = s === 'done';
-      const nextI = st.status.findIndex((x, n) => x !== 'done' && n !== i);
-      el.actNext.innerHTML = `
-        <p class="next__label">${done ? '已完成' : '服務待辦'}</p>
-        <label class="check">
-          <input type="checkbox" data-act="toggle" ${done ? 'checked' : ''}>
-          <span class="check__box">${CHECK_SVG}</span>
-          <span class="check__text"><b>${c.todo}</b><small>提醒：${c.remind}</small></span>
-        </label>
-        <p class="done-note">${done ? `${c.done}，已記錄到 ${c.name} 的時間軸。` : '完成後打勾，紀錄會加到時間軸。'}</p>
-        <div class="next__spacer"></div>
-        ${nextI > -1 ? `<button class="btn btn--line btn--block" type="button" data-act="next" data-to="${nextI}">下一位：${CLIENTS[nextI].name}</button>` : ''}`;
-    }
-  }
+  const q = {
+    step: $('#qStep'), result: $('#qResult'), count: $('#qCount'), bar: $('#qBar'), title: $('#qTitle'),
+    opts: $('#qOpts'), back: $('#qBack'), restart: $('#qRestart'),
+    rType: $('#rType'), rDiag: $('#rDiag'), rHours: $('#rHours'), rMiss: $('#rMiss'), rTip: $('#rTip'), rSafe: $('#rSafe'), rLine: $('#rLine'), rQr: $('#rQr')
+  };
+  if (!q.step) return;
+  let idx = 0;
+  let answers = [];
+  let locked = false;
 
-  function renderAll(opts = {}) {
-    app.dataset.phase = st.phase;
-    const organized = st.phase === 'review' || st.phase === 'finish';
-    el.tray.hidden = organized;
-    el.detail.hidden = !organized;
-    el.reset.hidden = st.phase === 'tray';
-    renderClients(opts.reveal !== false);
-    renderSteps();
-    if (organized) renderDetail(opts.animateLast);
-    renderAction();
-  }
+  const render = (animate) => {
+    const item = QUESTIONS[idx];
+    q.count.textContent = `第 ${idx + 1} 題／共 ${QUESTIONS.length} 題`;
+    q.bar.style.setProperty('--p', (idx + 1) / QUESTIONS.length);
+    q.title.textContent = item.q;
+    q.opts.innerHTML = item.o.map((o, n) =>
+      `<button class="qopt${answers[idx] === n ? ' is-on' : ''}" type="button" data-n="${n}" aria-pressed="${answers[idx] === n}">${o}</button>`).join('');
+    q.back.hidden = idx === 0;
+    if (animate && !reduce.matches) { q.step.classList.remove('is-swap'); void q.step.offsetWidth; q.step.classList.add('is-swap'); }
+  };
 
-  function reset(focus) {
-    st = fresh();
-    app.classList.remove('is-working');
-    el.ticks.forEach((t) => t.classList.remove('is-done'));
-    el.organize.disabled = false;
-    renderTray();
-    renderAll();
-    if (focus) el.organize.focus({ preventScroll: true });
-  }
+  const record = (type) => {
+    if (!FORM.action) return;
+    try {
+      const body = new URLSearchParams();
+      QUESTIONS.forEach((item, i) => { if (FORM.entries[item.k]) body.append(FORM.entries[item.k], item.o[answers[i]]); });
+      if (FORM.entries.type) body.append(FORM.entries.type, type);
+      if (FORM.entries.version) body.append(FORM.entries.version, VERSION);
+      fetch(FORM.action, { method: 'POST', mode: 'no-cors', body }).catch(() => {});
+    } catch (e) { /* 記錄失敗不影響頁面 */ }
+  };
 
-  async function organize() {
-    if (st.phase !== 'tray') return;
-    st.phase = 'working';
-    el.organize.disabled = true;
-    renderAll();
-    app.classList.add('is-working');
-    say('AI 整理中：辨識客戶、擷取時間與事項、建議下一步。');
-    for (const t of el.ticks) { await wait(420); t.classList.add('is-done'); }
-    await wait(380);
+  const showResult = () => {
+    const t = TYPES[answers[0]];
+    q.rType.textContent = t.name;
+    q.rDiag.textContent = t.diag;
+    q.rHours.textContent = String(Math.round(HOURS[answers[2]] * 50));
+    q.rMiss.hidden = answers[3] !== 2;
+    q.rMiss.textContent = '最近三個月漏掉 3 次以上，代表現在的方法已經不太夠用了。';
+    q.rTip.textContent = TIPS[answers[1]];
+    q.rSafe.textContent = SAFE[answers[4]];
+    q.rLine.href = oa(t.name);
+    q.rQr.src = `assets/qr/qr-${t.key}.svg`;
+    q.step.hidden = true;
+    q.result.hidden = false;
+    const top = $('#qcard').getBoundingClientRect().top;
+    if (top < 0) window.scrollBy({ top: top - 16, behavior: reduce.matches ? 'auto' : 'smooth' });
+    q.rType.focus({ preventScroll: true });
+    record(t.name);
+  };
 
-    // 手機：先把工作台頂端帶回畫面，讓訪客看見資訊飛進保戶清單
-    const top = app.getBoundingClientRect().top;
-    if (top < 0) {
-      window.scrollTo({ top: window.scrollY + top - (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 64) - 8, behavior: reduce.matches ? 'auto' : 'smooth' });
-      await wait(520);
-    }
-    // FLIP：資訊卡飛進保戶清單
-    const cards = $$('.tray__card .frag', el.trayCards);
-    const first = cards.map((c) => c.getBoundingClientRect());
-    st.phase = 'review';
-    renderAll({ reveal: reduce.matches });
-    const rows = $$('.client', el.clients);
-    if (!reduce.matches) {
-      const flights = cards.map((card, n) => {
-        const a = first[n], row = rows[n];
-        if (!row) return Promise.resolve();
-        const b = row.getBoundingClientRect();
-        const ghost = card.cloneNode(true);
-        ghost.classList.add('fly');
-        Object.assign(ghost.style, { left: `${a.left}px`, top: `${a.top}px`, width: `${a.width}px`, fontSize: getComputedStyle(card).fontSize });
-        document.body.appendChild(ghost);
-        const sc = Math.min(b.width / a.width, b.height / a.height);
-        const dx = b.left + (b.width - a.width * sc) / 2 - a.left;
-        const dy = b.top + (b.height - a.height * sc) / 2 - a.top;
-        const anim = ghost.animate([
-          { transform: 'translate(0,0) scale(1)', opacity: 1 },
-          { transform: `translate(${dx}px,${dy}px) scale(${sc})`, opacity: 0 }
-        ], { duration: 720, delay: n * 90, easing: 'cubic-bezier(.65,0,.35,1)', fill: 'forwards' });
-        return anim.finished.then(() => {
-          ghost.remove();
-          row.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, fill: 'forwards' }).finished.then(() => { row.style.opacity = ''; });
-        });
-      });
-      await Promise.all(flights);
-    }
-    rows.forEach((r) => { r.style.opacity = ''; });
-    say('已整理成 3 位保戶，各有一件建議的下一步。目前顯示王先生。');
-  }
-
-  function confirmTodo() {
-    const i = st.sel;
-    st.status[i] = 'todo';
-    st.log[i].push({ cls: 'tl--new', text: `建立待辦：${CLIENTS[i].todo}（${CLIENTS[i].remind} 提醒）` });
-    renderAll({ animateLast: true });
-    say(`已為${CLIENTS[i].name}建立待辦：${CLIENTS[i].todo}。`);
-    const box = $('input[data-act="toggle"]', el.actNext);
-    if (box) box.focus({ preventScroll: true });
-  }
-
-  function toggleTodo(checked) {
-    const i = st.sel;
-    if (checked) {
-      st.status[i] = 'done';
-      st.log[i].push({ cls: 'tl--done', text: `完成：${CLIENTS[i].done}` });
-    } else {
-      st.status[i] = 'todo';
-      st.log[i] = st.log[i].filter((e) => e.cls !== 'tl--done');
-    }
-    const allDone = st.status.every((s) => s === 'done');
-    renderAll({ animateLast: checked });
-    say(checked ? `${CLIENTS[i].name}的下一步已完成。` : `已取消完成：${CLIENTS[i].todo}。`);
-    const box = $('input[data-act="toggle"]', el.actNext);
-    if (box) box.focus({ preventScroll: true });
-    if (allDone) {
-      setTimeout(() => {
-        if (!st.status.every((s) => s === 'done')) return;
-        st.phase = 'finish';
-        renderAll();
-        say('三位保戶，都有清楚的下一步了。');
-        $('.btn--gold', el.actFinish).focus({ preventScroll: true });
-      }, reduce.matches ? 0 : 900);
-    }
-  }
-
-  function select(i) {
-    if (st.phase !== 'review' && st.phase !== 'finish') return;
-    st.sel = i;
-    if (st.phase === 'finish') st.phase = 'review';
-    renderAll();
-    say(`目前顯示${CLIENTS[i].name}。`);
-  }
-
-  el.organize.addEventListener('click', organize);
-  el.reset.addEventListener('click', () => reset(true));
-  el.replay.addEventListener('click', () => reset(true));
-  el.clients.addEventListener('click', (e) => {
-    const b = e.target.closest('button.client');
-    if (b) select(Number(b.dataset.i));
+  q.opts.addEventListener('click', (e) => {
+    const b = e.target.closest('.qopt');
+    if (!b || locked) return;
+    locked = true;
+    answers[idx] = Number(b.dataset.n);
+    $$('.qopt', q.opts).forEach((x) => { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+    setTimeout(() => {
+      locked = false;
+      if (idx < QUESTIONS.length - 1) { idx += 1; render(true); q.title.focus({ preventScroll: true }); }
+      else showResult();
+    }, reduce.matches ? 0 : 260);
   });
-  el.actNext.addEventListener('click', (e) => {
-    const b = e.target.closest('[data-act]');
-    if (!b) return;
-    if (b.dataset.act === 'confirm') confirmTodo();
-    if (b.dataset.act === 'next') {
-      select(Number(b.dataset.to));
-      const btn = $('[data-act="confirm"], input[data-act="toggle"]', el.actNext);
-      if (btn) btn.focus({ preventScroll: true });
-    }
+  q.back.addEventListener('click', () => { if (idx > 0) { idx -= 1; render(true); q.title.focus({ preventScroll: true }); } });
+  q.restart.addEventListener('click', () => {
+    idx = 0; answers = [];
+    q.result.hidden = true; q.step.hidden = false;
+    render(true); q.title.focus({ preventScroll: true });
   });
-  el.actNext.addEventListener('change', (e) => {
-    if (e.target.matches('input[data-act="toggle"]')) toggleTodo(e.target.checked);
-  });
-
-  reset(false);
+  render(false);
 })();

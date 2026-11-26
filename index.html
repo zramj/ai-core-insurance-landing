@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>保險業務員的保戶服務整理｜AI CORE 艾構數位科技</title>
-<meta name="description" content="給保險業務員：把分散在訊息、工作筆記與行事曆裡的保戶資訊，整理成每位保戶清楚的下一步。依你的工作方式評估與客製，先體驗概念工作台。">
+<title>保險業務的 LINE AI 助理｜AI CORE 艾構數位科技</title>
+<meta name="description" content="給保險業務：客戶在 LINE 交代的事、見完面的語音、要追的補件，轉傳給你的 AI 助理，它幫你整理紀錄、設定提醒，每天早上告訴你今天要做什麼。早鳥名單募集中。">
 <!-- 測試階段：不讓搜尋引擎收錄。正式上線時刪除這一行。 -->
 <meta name="robots" content="noindex, nofollow">
 <meta name="site-kind" content="other">
@@ -12,298 +12,214 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:site_name" content="AI CORE 艾構數位科技">
-<meta property="og:title" content="重要的客戶，不該只靠記憶｜AI CORE">
-<meta property="og:description" content="讓分散的保戶資訊，成為清楚的下一步。一分鐘體驗保戶工作台概念展示。">
-<meta property="og:image" content="share.jpg"><!-- 有正式或 GitHub Pages 網址後改成完整網址，並補上 og:url -->
+<meta property="og:title" content="客戶交代的事，轉傳給 AI 助理就好｜AI CORE">
+<meta property="og:description" content="給保險業務的 LINE AI 助理：整理紀錄、設定提醒、每天早上告訴你今天要做什麼。1 分鐘檢測你的記事類型。">
+<meta property="og:url" content="https://zramj.github.io/ai-core-insurance-landing/"><!-- 測試網址；正式上線改成正式網址 -->
+<meta property="og:image" content="https://zramj.github.io/ai-core-insurance-landing/share.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="重要的客戶，不該只靠記憶。AI CORE 保戶服務整理">
+<meta property="og:image:alt" content="客戶交代的事，轉傳給 AI 助理就好。AI CORE 保險業務 LINE AI 助理">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#F5F3EE">
+<meta name="theme-color" content="#EEF5F3">
 <link rel="icon" href="assets/ai-core-symbol.svg" type="image/svg+xml">
-<!-- <link rel="canonical" href="https://www.ai-core.si/…">  正式網址確定後再加入（測試階段不需要） -->
+<!-- <link rel="canonical" href="https://www.ai-core.si/…">  正式網址確定後再加入 -->
+<link rel="preload" href="assets/fonts/space-grotesk-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://www.ai-core.si/#organization",
-      "name": "AI CORE 艾構數位科技",
-      "alternateName": "AI CORE",
-      "url": "https://www.ai-core.si/"
-    },
-    {
-      "@type": "Service",
-      "@id": "#service",
-      "name": "保險業務員的保戶服務整理",
-      "serviceType": "客製化工作流程整合與 AI 資訊整理",
-      "description": "把分散在訊息、工作筆記與行事曆裡的保戶資訊，整理成每位保戶清楚的服務紀錄與下一步待辦。依業務員的工作方式評估與客製。",
+    { "@type": "Organization", "@id": "https://www.ai-core.si/#organization", "name": "AI CORE 艾構數位科技", "alternateName": "AI CORE", "url": "https://www.ai-core.si/" },
+    { "@type": "Service", "@id": "#service", "name": "保險業務的 LINE AI 助理",
+      "serviceType": "AI 助理建置與工作流程整合",
+      "description": "保險業務把客戶訊息、語音或補件轉傳給 LINE 上的 AI 助理，助理整理成紀錄、設定提醒，並每天早上提供今日待辦。依業務的工作方式評估與建置。",
       "provider": { "@id": "https://www.ai-core.si/#organization" },
       "audience": { "@type": "BusinessAudience", "audienceType": "保險業務員" },
-      "areaServed": { "@type": "Country", "name": "台灣" }
-    },
-    {
-      "@type": "WebPage",
-      "name": "保險業務員的保戶服務整理｜AI CORE 艾構數位科技",
-      "description": "給保險業務員：把分散的保戶資訊，整理成每位保戶清楚的下一步。",
-      "inLanguage": "zh-Hant-TW",
-      "about": { "@id": "#service" },
-      "publisher": { "@id": "https://www.ai-core.si/#organization" }
-    }
+      "areaServed": { "@type": "Country", "name": "台灣" } },
+    { "@type": "WebPage", "name": "保險業務的 LINE AI 助理｜AI CORE 艾構數位科技", "inLanguage": "zh-Hant-TW",
+      "about": { "@id": "#service" }, "publisher": { "@id": "https://www.ai-core.si/#organization" } }
   ]
 }
 </script>
-<link rel="preload" href="assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css">
-<script>document.documentElement.classList.add('js','m-enter');setTimeout(function(){document.documentElement.classList.add('enter-safe','m-enter-done')},2600)</script>
 </head>
 <body>
 <!--
-  AI CORE｜Insurance Landing Page V1 — FROM CHAOS TO CLARITY.
-  kind: service（工作室提供客製數位解決方案，不是販售自家軟體）
-  sections: hero(#top) → clarity(#clarity, 整理過程) → workbench(#workbench, 互動工作台) → closing(#contact)
-  motion: hero 進場一次；#clarity 進入畫面時自動播放一次整理過程（可點步驟、可重播，不鎖捲動）；工作台由使用者操作觸發
+  AI CORE｜保險業 Landing Page（資料夾名稱沿用 V1 以保留 Git 連結）
+  對象：個人保險業務（頁尾提到團隊版）　賣點：LINE AI 助理　配色：晨光青綠
+  區塊：hero 聊天示範(#top) → 助理能做的事(#jobs) → 安心說明(#trust) → 1 分鐘檢測(#quiz) → 早鳥名單(#contact)
 -->
-
-<header class="nav" id="nav">
-  <div class="wrap nav__bar">
-    <a class="skip-link" href="#main">跳到主要內容</a>
-    <a class="nav__logo" href="#top" aria-label="AI CORE 艾構數位科技，回到頁首">
-      <img src="assets/ai-core-logo-horizontal.svg" alt="AI CORE 艾構數位科技" width="240" height="39">
-    </a>
-    <nav class="nav__links" aria-label="頁面導覽">
-      <a class="nav__link" href="#clarity">整理過程</a>
-      <a class="nav__link" href="#workbench">體驗工作台</a>
-      <a class="btn btn--ghost btn--sm" href="#contact">討論我的工作流程</a>
-    </nav>
-  </div>
-</header>
+<a class="skip-link" href="#main">跳到主要內容</a>
 
 <main id="main">
 
-  <!-- 01 HERO -->
+  <!-- 01 HERO：LINE 聊天示範 -->
   <section class="hero" id="top" aria-labelledby="hero-title" data-enter>
-    <div class="wrap"><div class="hero-text hero__grid">
+    <header class="top wrap">
+      <a class="top__logo" href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v3&amp;utm_content=header-logo" target="_blank" rel="noopener" aria-label="AI CORE 艾構數位科技 官方網站">
+        <img src="assets/ai-core-logo-horizontal.svg" alt="AI CORE 艾構數位科技" width="240" height="39">
+      </a>
+      <a class="top__link" href="#quiz">1 分鐘檢測</a>
+    </header>
+
+    <div class="wrap hero__grid">
       <div class="hero__text">
-        <h1 id="hero-title" class="hero__title">
-          <span class="eyebrow e-in" style="--d:0"><span class="eyebrow__rule" aria-hidden="true"></span>給保險業務員的保戶服務整理</span>
-          <span class="line e-in" style="--d:1">重要的客戶，</span>
-          <span class="line e-in" style="--d:2">不該只靠記憶。</span>
-        </h1>
-        <p class="hero__lead e-in" style="--d:3">客戶訊息、會談筆記、補件提醒和定期關懷，常常分散在不同地方。AI CORE 依照你的工作方式，把它們整理成每位保戶清楚的下一步。</p>
-        <div class="hero__actions e-in" style="--d:4">
-          <a class="btn btn--ink" href="#workbench">體驗保戶工作台<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-          <p class="hero__note">約 1 分鐘・概念展示・示範資料</p>
-        </div>
+        <p class="eyebrow e-in" style="--d:0">給保險業務的 LINE AI 助理</p>
+        <h1 id="hero-title" class="hero__title e-in" style="--d:1"><span class="nw">客戶交代的事，</span><span class="nw">轉傳給助理就好。</span></h1>
+        <p class="hero__lead e-in" style="--d:2">客戶在 LINE 說的約定、見完面的語音、要追的補件，傳給你的 AI 助理。它幫你整理成紀錄、設定提醒，每天早上告訴你今天要做什麼。</p>
       </div>
 
-      <div class="hero__visual" aria-hidden="true">
-        <div class="hv" data-ui>
-          <div class="hv__orbit"><span class="hv__dot"></span></div>
-
-          <div class="hv__item is-back" style="--x:54;--y:3;--r:0;--mx:40;--my:0;--d:0">
-            <div class="frag frag--msg">
-              <div class="frag__head"><span class="av">陳</span><b>陳小姐</b><span class="src">訊息</span><time>09:12</time></div>
-              <p>資料我這幾天拍給你。</p>
-            </div>
+      <div class="hero__stage e-in" style="--d:2">
+        <div class="orb" aria-hidden="true"></div>
+        <div class="phone" id="phone" data-ui role="group" aria-label="示範：把客戶訊息交給 LINE AI 助理整理">
+          <div class="chat__head">
+            <span class="bot" aria-hidden="true">助</span>
+            <span><b>我的 AI 助理</b><small>示範對話</small></span>
           </div>
-          <div class="hv__item is-back" style="--x:36;--y:81;--r:0;--mx:-99;--my:-99;--d:1">
-            <div class="frag frag--note frag--plain">
-              <span class="src">會談筆記</span>
-              <p>王先生：上次會談，想多了解醫療保障。</p>
-            </div>
-          </div>
-
-          <div class="hv__item" style="--x:7;--y:14;--r:0;--mx:0;--my:8;--d:2">
-            <div class="frag frag--msg">
-              <div class="frag__head"><span class="av">王</span><b>王先生</b><span class="src">訊息</span><time>21:47</time></div>
-              <p>下週三有空，想再聊聊之前的保障內容。</p>
-            </div>
-          </div>
-          <div class="hv__item" style="--x:41;--y:31;--r:0;--mx:40;--my:31;--d:3">
-            <div class="frag frag--note">
-              <span class="src">工作筆記</span>
-              <p>陳小姐<br>補件資料<span class="ink-circle">還沒收到</span></p>
-            </div>
-          </div>
-          <div class="hv__item is-mid" style="--x:7;--y:53;--r:0;--mx:2;--my:53;--d:4">
-            <div class="frag frag--cal">
-              <div class="cal__top"><span>行事曆</span><span>14:00</span></div>
-              <div class="cal__day"><b>週五</b><small>下週</small></div>
-              <p>林先生｜定期保單檢視</p>
-            </div>
-          </div>
-          <div class="hv__item" style="--x:58;--y:64;--r:0;--mx:62;--my:66;--d:5">
-            <div class="frag frag--sticky"><p>記得回電……<small>是哪位？</small></p></div>
-          </div>
+          <div class="chat" id="chat" aria-live="polite"></div>
+          <div class="dock" id="dock"></div>
         </div>
+        <p class="hero__note">示範畫面，人名與內容皆為虛構</p>
       </div>
 
-      <p class="hero__sign e-in" style="--d:5" lang="en">From chaos to clarity.</p>
-    </div></div>
+      <div class="hero__actions e-in" style="--d:3">
+        <a class="btn btn--coral" href="#quiz">做 1 分鐘記事類型檢測<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <p class="hero__aside">6 題，看看你一年花多少時間在整理客戶資料</p>
+      </div>
+    </div>
   </section>
 
-  <!-- 02 TRANSFORMATION -->
-  <section class="clarity" id="clarity" aria-labelledby="clarity-title">
-      <div class="wrap clarity__grid">
-        <div class="clarity__text">
-          <p class="eyebrow eyebrow--en" lang="en">From chaos to clarity.</p>
-          <h2 id="clarity-title">從零散的資訊，<br>到清楚的下一步。</h2>
-          <ol class="steps" aria-label="整理過程">
-            <li><button class="step" type="button" data-step="1"><span class="step__no mono">01</span><span class="step__body"><b>資訊匯入</b><span>訊息、筆記、行事曆，集中到同一個地方。</span></span></button></li>
-            <li><button class="step" type="button" data-step="2"><span class="step__no mono">02</span><span class="step__body"><b>AI 協助整理</b><span>找出是哪位客戶、什麼時間、要處理什麼。</span></span></button></li>
-            <li><button class="step" type="button" data-step="3"><span class="step__no mono">03</span><span class="step__body"><b>客戶分類</b><span>依保戶歸檔，每個人的服務紀錄一目了然。</span></span></button></li>
-            <li><button class="step" type="button" data-step="4"><span class="step__no mono">04</span><span class="step__body"><b>服務待辦</b><span>每位保戶，都有一件清楚的下一步。</span></span></button></li>
-          </ol>
-          <p class="clarity__desc" id="clarityDesc" aria-hidden="true">平常的樣子：資訊散在各處，只能靠記憶。</p>
-          <button class="clarity__replay" type="button" id="clarityReplay"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8a5 5 0 1 0 1.6-3.7M3 2.5v2.8h2.8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>重新播放整理過程</button>
-        </div>
-
-        <div class="clarity__stagewrap">
-          <div class="stage" id="stage" data-s="0" data-ui aria-hidden="true">
-            <div class="stage__scan"></div>
-
-            <div class="lane" data-k="L1"><span class="av">王</span><b>王先生</b><small>2 則紀錄</small></div>
-            <div class="lane" data-k="L2"><span class="av">陳</span><b>陳小姐</b><small>2 則紀錄</small></div>
-            <div class="lane" data-k="L3"><span class="av">林</span><b>林先生</b><small>1 則紀錄</small></div>
-
-            <div class="st-item" data-k="f1"><div class="frag frag--msg">
-              <div class="frag__head"><span class="av">王</span><b>王先生</b><span class="src">訊息</span><time>21:47</time></div>
-              <p><span class="hl">下週三</span>有空，想再聊聊之前的<span class="hl">保障內容</span>。</p>
-              <span class="tag">王先生・會談邀約</span>
-            </div></div>
-            <div class="st-item" data-k="f2"><div class="frag frag--note frag--plain">
-              <span class="src">會談筆記</span>
-              <p><span class="hl">王先生</span>：上次會談，想多了解<span class="hl">醫療保障</span>。</p>
-              <span class="tag">王先生・會談紀錄</span>
-            </div></div>
-            <div class="st-item" data-k="f3"><div class="frag frag--note">
-              <span class="src">工作筆記</span>
-              <p><span class="hl">陳小姐</span>　<span class="hl">補件資料</span>還沒收到。</p>
-              <span class="tag">陳小姐・補件追蹤</span>
-            </div></div>
-            <div class="st-item" data-k="f4"><div class="frag frag--msg">
-              <div class="frag__head"><span class="av">陳</span><b>陳小姐</b><span class="src">訊息</span><time>09:12</time></div>
-              <p>資料我<span class="hl">這幾天</span>拍給你。</p>
-              <span class="tag">陳小姐・補件追蹤</span>
-            </div></div>
-            <div class="st-item" data-k="f5"><div class="frag frag--cal">
-              <div class="cal__top"><span>行事曆</span><span>14:00</span></div>
-              <div class="cal__day"><b>週五</b><small>下週</small></div>
-              <p><span class="hl">林先生</span>｜<span class="hl">定期保單檢視</span></p>
-              <span class="tag">林先生・定期服務</span>
-            </div></div>
-            <div class="st-item" data-k="f6"><div class="frag frag--sticky">
-              <p>記得回電……<small>是哪位？</small></p>
-              <span class="tag tag--ask">無法判斷，交給你確認</span>
-            </div></div>
-
-            <div class="todo" data-k="T1"><span class="todo__ring"></span><span><b>確認下週三會談時間</b><small>明天 10:00 提醒</small></span></div>
-            <div class="todo" data-k="T2"><span class="todo__ring"></span><span><b>明天確認資料提供進度</b><small>明天 14:00 提醒</small></span></div>
-            <div class="todo" data-k="T3"><span class="todo__ring"></span><span><b>準備定期服務會談</b><small>下週四 17:00 提醒</small></span></div>
-          </div>
-        </div>
-      </div>
-  </section>
-
-  <!-- 03 INTERACTIVE PRODUCT EXPERIENCE -->
-  <section class="bench" id="workbench" aria-labelledby="bench-title">
+  <!-- 02 助理能做的事 -->
+  <section class="jobs" id="jobs" aria-labelledby="jobs-title">
     <div class="wrap">
-      <div class="bench__head">
-        <div>
-          <p class="eyebrow eyebrow--dark"><span class="eyebrow__rule" aria-hidden="true"></span>概念展示・可以操作</p>
-          <h2 id="bench-title">親自試試：<br>把零散資訊，<br class="br-m">變成下一步。</h2>
-        </div>
-        <p class="bench__intro">按下整理，看三則資訊如何歸到對的保戶，再由你確認、建立待辦並完成。<span class="bench__disclaimer">示範資料皆為虛構；本展示不會讀取你的訊息，也不會儲存任何資料。</span></p>
+      <p class="eyebrow">不用學新的 App，就在 LINE 裡</p>
+      <h2 id="jobs-title">助理幫你做的 4 件事</h2>
+      <ol class="job-list">
+        <li class="job">
+          <div class="job__text"><p class="job__no">01</p><h3>訊息變提醒</h3><p>客戶在 LINE 約時間、交代事情，轉傳給助理，它幫你記下來，時間到了提醒你。</p></div>
+          <div class="mini" data-ui aria-hidden="true">
+            <p class="b b--me"><span class="fw">轉傳｜林先生</span>保單檢視改到下週五下午可以嗎？</p>
+            <p class="b b--bot">已記下：<b>下週五下午 林先生保單檢視</b>。前一天晚上提醒你準備資料。</p>
+          </div>
+        </li>
+        <li class="job">
+          <div class="job__text"><p class="job__no">02</p><h3>語音變紀錄</h3><p>見完客戶，在車上錄一段語音。助理整理成會談紀錄，順便列出下一步。</p></div>
+          <div class="mini" data-ui aria-hidden="true">
+            <p class="b b--me b--voice"><span class="mic"></span>語音 0:42</p>
+            <p class="b b--bot"><b>會談紀錄｜陳小姐</b>想加強醫療保障；補件還缺身分證影本。<br><b>下一步</b>：週五前提醒她補件。</p>
+          </div>
+        </li>
+        <li class="job">
+          <div class="job__text"><p class="job__no">03</p><h3>早上的今日清單</h3><p>每天 8 點，助理傳給你今天要處理的事，快到期的排前面。</p></div>
+          <div class="mini" data-ui aria-hidden="true">
+            <p class="b b--bot"><b>早安，今天 3 件事</b><br>・回覆王先生會談時間<br>・提醒陳小姐補件（已 3 天）<br>・張太太週六生日</p>
+          </div>
+        </li>
+        <li class="job">
+          <div class="job__text"><p class="job__no">04</p><h3>見客戶前的摘要</h3><p>出門前問一句，助理告訴你上次聊了什麼、還有什麼沒處理。</p></div>
+          <div class="mini" data-ui aria-hidden="true">
+            <p class="b b--me">王先生上次聊什麼？</p>
+            <p class="b b--bot">上次（10 月）聊到想加強醫療保障，他說下週三下午有空再談。<b>還沒處理</b>：回覆確認時間。</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 03 安心說明 -->
+  <section class="trust" id="trust" aria-labelledby="trust-title">
+    <div class="wrap trust__grid">
+      <div class="trust__intro">
+        <p class="eyebrow eyebrow--light">保戶資料，你說了算</p>
+        <h2 id="trust-title">你轉傳什麼，<br>助理才處理什麼。</h2>
+      </div>
+      <dl class="trust-list">
+        <div><dt>不讀取你的 LINE</dt><dd>助理看不到你和客戶的對話，只處理你主動轉傳或傳給它的內容。</dd></div>
+        <div><dt>你確認了才建立</dt><dd>助理整理的每一筆紀錄和提醒，都要你按確認才會存下來。</dd></div>
+        <div><dt>先確認公司規定</dt><dd>導入前會先了解你所屬公司的規定，以及資料要放在哪裡，必要時只記錄代稱。</dd></div>
+        <div><dt>只做紀錄和提醒</dt><dd>助理不提供保險商品建議，也不解釋條款，只幫你處理行政和提醒。</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 04 檢測 -->
+  <section class="quiz" id="quiz" aria-labelledby="quiz-title">
+    <div class="wrap quiz__grid">
+      <div class="quiz__intro">
+        <p class="eyebrow">1 分鐘記事類型檢測</p>
+        <h2 id="quiz-title">你是哪一型<br>保險業務？</h2>
+        <p class="quiz__lead">6 題，答完馬上看結果，還會算出你一年大約花多少時間在整理客戶資料。</p>
+        <ul class="types" aria-label="四種類型">
+          <li><b>LINE 考古型</b><span>要找就得一直往上滑</span></li>
+          <li><b>便條紙滿天飛型</b><span>記在好幾個地方</span></li>
+          <li><b>下班還在整理型</b><span>認真記，但很花時間</span></li>
+          <li><b>記憶力硬撐型</b><span>大多記在腦子裡</span></li>
+        </ul>
       </div>
 
-      <noscript><p class="bench__noscript">互動展示需要開啟 JavaScript。你仍可以直接<a href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v1&amp;utm_content=noscript#contact">討論你的工作流程</a>。</p></noscript>
-      <div class="app" id="app" data-phase="tray" data-ui>
-        <div class="app__bar">
-          <div class="app__title"><img src="assets/ai-core-symbol.svg" alt="" width="20" height="20" class="app__mark" loading="lazy"><b>保戶工作台</b><span class="app__badge">概念展示</span></div>
-          <ol class="app__steps" aria-label="體驗進度">
-            <li data-p="1"><span class="mono">1</span>整理</li>
-            <li data-p="2"><span class="mono">2</span>確認</li>
-            <li data-p="3"><span class="mono">3</span>完成</li>
-          </ol>
-          <button class="app__reset" type="button" id="reset" hidden>重新體驗</button>
-        </div>
-
-        <div class="app__body">
-          <aside class="app__side" aria-label="保戶">
-            <div class="side__head"><span class="mono">保戶</span><span class="side__count" id="sideCount">尚未整理</span></div>
-            <div class="clients" id="clients" role="group" aria-label="選擇保戶"></div>
-            <div class="side__progress" id="sideProgress" hidden>
-              <div class="bar"><span id="barFill"></span></div>
-              <p><b id="doneCount">0</b> / 3 位保戶的下一步已完成</p>
-            </div>
-          </aside>
-
-          <div class="app__main">
-            <!-- tray: 分散的資訊 -->
-            <div class="pane pane--tray" id="tray">
-              <div class="pane__head"><b>今天收到的資訊</b><span class="pill-count">3 則未整理</span></div>
-              <div class="tray" id="trayCards"></div>
-            </div>
-            <!-- detail: 單一保戶 -->
-            <div class="pane pane--detail" id="detail" hidden>
-              <div class="detail__who" id="who"></div>
-              <p class="pane__label mono">服務時間軸</p>
-              <ol class="timeline" id="timeline"></ol>
-            </div>
-
-            <div class="pane pane--action" id="action">
-              <div class="act act--start" id="actStart">
-                <p class="act__lead">AI 會從每則資訊找出<b>客戶</b>、<b>時間</b>和<b>要處理的事</b>，整理好之後交給你確認。</p>
-                <ul class="ticks" id="ticks">
-                  <li>辨識是哪位客戶</li>
-                  <li>擷取時間與要處理的事</li>
-                  <li>建議下一步</li>
-                </ul>
-                <div class="next__spacer"></div>
-                <button class="btn btn--gold btn--block" type="button" id="organize">開始 AI 整理</button>
-                <p class="act__note">模擬結果・不需輸入任何資料</p>
-              </div>
-              <div class="act act--next" id="actNext" hidden></div>
-              <div class="act act--finish" id="actFinish" hidden>
-                <p class="finish__title">三位保戶，<br>都有清楚的下一步了。</p>
-                <p class="act__lead">這只是示範。實際導入時，會先了解你現在用的工具與習慣，再設計適合你的整理方式。</p>
-                <a class="btn btn--gold btn--block" href="#contact">討論我的工作流程</a>
-                <button class="btn btn--line btn--block" type="button" id="replay">重新體驗</button>
-              </div>
-            </div>
+      <div class="qcard" id="qcard" data-ui>
+        <div class="qcard__q" id="qStep">
+          <div class="qprog"><p class="qprog__txt" id="qCount">第 1 題／共 6 題</p><div class="qprog__bar"><span id="qBar"></span></div></div>
+          <fieldset class="qset">
+            <legend class="qtitle" id="qTitle" tabindex="-1">客戶的資料和約定，主要記在哪裡？</legend>
+            <div class="qopts" id="qOpts"></div>
+          </fieldset>
+          <div class="qfoot">
+            <button class="qback" type="button" id="qBack" hidden>上一題</button>
+            <p class="qprivacy">答案會匿名收集，用於改善服務，不含任何個人或保戶資料。</p>
           </div>
         </div>
-        <p class="sr-only" aria-live="polite" id="live"></p>
+
+        <div class="qcard__r" id="qResult" hidden>
+          <p class="r__label">你是</p>
+          <h3 class="r__type" id="rType" tabindex="-1">LINE 考古型</h3>
+          <p class="r__diag" id="rDiag"></p>
+          <div class="r__hours"><p>依你的回答，一年大約花</p><p class="r__num"><b id="rHours">200</b> 小時</p><p>在整理客戶資料和提醒（以每年 50 週計）。</p></div>
+          <p class="r__miss" id="rMiss" hidden></p>
+          <div class="r__tip"><p class="r__tiplabel">這週可以先做</p><p id="rTip"></p></div>
+          <p class="r__safe" id="rSafe"></p>
+          <div class="r__line">
+            <div class="r__linetext">
+              <p class="r__linetitle">加 LINE，領取完整建議</p>
+              <p>3 個不用換工具就能做的改善、一張整理好的圖卡，也會同時幫你登記早鳥名單。</p>
+              <a class="btn btn--teal btn--block" id="rLine" href="https://lin.ee/yZvK4nw" target="_blank" rel="noopener">用 LINE 領取完整建議</a>
+              <p class="r__hint">打開後按「傳送」，就會自動收到你這一型的建議。</p>
+            </div>
+            <figure class="r__qr"><img id="rQr" src="assets/qr/qr-line-archaeology.svg" alt="用手機掃描，在 LINE 領取建議" width="128" height="128"><figcaption>用手機掃描</figcaption></figure>
+          </div>
+          <div class="r__foot">
+            <button class="qback" type="button" id="qRestart">重新檢測</button>
+            <p class="r__note">結果依你的回答整理，是參考建議，不是評分。</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 </main>
 
-<!-- 04 CONTACT -->
+<!-- 05 早鳥名單 -->
 <footer class="closing" id="contact" aria-labelledby="close-title">
   <div class="wrap">
-    <div class="closing__main">
-      <p class="eyebrow"><span class="eyebrow__rule" aria-hidden="true"></span>下一步，從你的工作方式開始</p>
-      <h2 id="close-title" class="closing__title">把時間留給客戶，<br>而不是整理客戶。</h2>
-      <div class="closing__row">
-        <p class="closing__lead">每位業務員記錄客戶的方式都不一樣。先聊聊你現在怎麼記、用哪些工具，再一起評估適合的整理方式。</p>
-        <a class="btn btn--ink" href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v1&amp;utm_content=contact-cta#contact" target="_blank" rel="noopener">討論我的工作流程<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 11.5 11.5 4.5M5.5 4.5h6v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      </div>
-      <dl class="terms">
-        <div><dt>現有工具</dt><dd>先看你正在用什麼，再評估沿用、串接或整合，不一定要全部換掉。</dd></div>
-        <div><dt>客製方式</dt><dd>客戶分類、提醒時間與待辦格式，依你的實際流程討論。</dd></div>
-        <div><dt>資料與費用</dt><dd>資料存放、權限保護與專案費用，都依實際需求評估後說明。</dd></div>
-      </dl>
+    <p class="eyebrow">早鳥共創方案</p>
+    <h2 id="close-title" class="closing__title">一起把 AI 助理，<br>調整成你的工作方式。</h2>
+    <p class="closing__lead">我們正在找第一批保險業務一起使用。早鳥會用較優惠的方式導入，使用期間一起調整提醒方式和紀錄格式，名額有限，會依登記順序聯絡。</p>
+    <ul class="perks">
+      <li>專屬你的 LINE AI 助理</li>
+      <li>依你的習慣設定提醒和紀錄格式</li>
+      <li>使用期間一起調整，直到順手</li>
+    </ul>
+    <div class="closing__actions">
+      <a class="btn btn--coral" id="earlyLink" href="https://line.me/R/oaMessage/%40732ntowu/?%E5%8A%A0%E5%85%A5%E6%97%A9%E9%B3%A5%E5%90%8D%E5%96%AE" target="_blank" rel="noopener">用 LINE 加入早鳥名單</a>
+      <figure class="closing__qr"><img src="assets/qr/qr-earlybird.svg" alt="用手機掃描，用 LINE 加入早鳥名單" width="112" height="112" loading="lazy"><figcaption>用手機掃描加入</figcaption></figure>
     </div>
-    <div class="closing__foot">
-      <a class="foot__logo" href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v1&amp;utm_content=footer-logo" target="_blank" rel="noopener"><img src="assets/ai-core-logo-horizontal.svg" alt="AI CORE 艾構數位科技 官方網站" width="240" height="39" loading="lazy"></a>
+    <p class="closing__team">帶團隊嗎？也可以做團隊版，讓你看到全隊的待辦。直接在 LINE 告訴我們。</p>
+    <div class="foot">
+      <a class="foot__logo" href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v3&amp;utm_content=footer-logo" target="_blank" rel="noopener"><span>by</span><img src="assets/ai-core-logo-horizontal.svg" alt="AI CORE 艾構數位科技 官方網站" width="240" height="39" loading="lazy"></a>
       <nav class="foot__links" aria-label="官方網站">
-        <a href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v1&amp;utm_content=footer-link" target="_blank" rel="noopener">官方網站</a>
+        <a href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v3&amp;utm_content=footer-link" target="_blank" rel="noopener">官方網站</a>
         <a href="https://www.ai-core.si/privacy" target="_blank" rel="noopener">隱私權政策</a>
       </nav>
-      <p class="foot__legal">© 2026 AI CORE 艾構數位科技。本頁為概念原型，工作台為模擬展示，所有示範資料皆為虛構。</p>
+      <p class="foot__legal">© 2026 AI CORE 艾構數位科技。本頁為概念原型，示範畫面中的人名與內容皆為虛構。AI 助理功能依實際導入評估，不代表已上市產品。</p>
     </div>
   </div>
 </footer>
