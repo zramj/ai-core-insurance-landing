@@ -10,6 +10,8 @@
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const wait = (ms) => new Promise((res) => setTimeout(res, reduce.matches ? 0 : ms));
   const LINE_ID = '%40732ntowu';
+  const FRIEND = 'https://lin.ee/yZvK4nw';
+  const coarse = window.matchMedia('(hover: none) and (pointer: coarse)');
   const oa = (text) => `https://line.me/R/oaMessage/${LINE_ID}/?${encodeURIComponent(text)}`;
 
   /* ---------------- 首屏進場 ---------------- */
@@ -52,6 +54,8 @@
   };
   const greet = () => {
     bubble('b--bot', '<b>早安，今天 2 件事</b><br>・提醒陳小姐補件（已 3 天）<br>・張太太週六生日');
+    bubble('b--me', '幫我記：週四前把資料送給林先生');
+    bubble('b--bot', '好，週三晚上 8 點提醒你。');
     bubble('b--bot', '客戶交代的新事情，轉傳給我就好。');
   };
   const steps = () => `<div class="dock__steps" aria-hidden="true">${SCENES.map((_, i) => `<span class="${i === scene ? 'on' : ''}"></span>`).join('')}</div>`;
@@ -135,8 +139,11 @@
   /* ---------------- 1 分鐘檢測 ---------------- */
   // 匿名記錄：拿到「預先填入連結」後填入 action 與 entry 代碼；留空則不送出
   const FORM = {
-    action: '',
-    entries: { where: '', pain: '', hours: '', miss: '', worry: '', price: '', type: '', version: '' }
+    action: 'https://docs.google.com/forms/d/e/1FAIpQLSfQoJDuk4yslYaMSDsbrkmu9z3ESg00Q4pPROYMF50dcdaKOg/formResponse',
+    entries: {
+      where: 'entry.1713435514', pain: 'entry.2015032333', hours: 'entry.160914467', miss: 'entry.1474158334',
+      worry: 'entry.1730240986', price: 'entry.1428338714', type: 'entry.988258661', version: 'entry.1552169066'
+    }
   };
   const VERSION = 'insurance-v3';
 
@@ -155,11 +162,11 @@
     { key: 'memory', name: '記憶力硬撐型', diag: '大部分都記在腦子裡。平常沒問題，一忙起來就容易漏。' }
   ];
   const TIPS = [
-    '見完客戶，在車上先錄一段 1 分鐘語音，回家再整理也不怕忘。',
-    '建一個只有自己的 LINE 群組，客戶交代的事當下就轉傳進去，之後只看那裡。',
-    '每一筆補件都寫上期限，每週一早上看一次還沒收到的。',
-    '把生日和保單週年一次輸入手機行事曆，設成提前 3 天提醒。',
-    '每次見完客戶，留一句「下次要聊什麼」，下次見面前看這一句就好。'
+    '下次見完客戶，先別急著開車，對手機講一分鐘重點。晚上整理時聽一遍，就想起來了。',
+    '開一個只有你自己的 LINE 群組，客戶交代的事當下就丟進去。要找的時候翻那裡就好。',
+    '補件順手記一下「哪天要收到」，每週一早上看一眼，還缺哪幾份就很清楚。',
+    '找個空檔，把客戶生日和保單週年一次輸進手機行事曆，提前三天提醒，之後就不用記了。',
+    '每次見完客戶，順手寫一句「下次要聊什麼」。下回見面前，看這一句就夠了。'
   ];
   const SAFE = [
     'AI 助理只處理你主動轉傳的內容，不會讀取你的 LINE；資料放在哪裡，導入前會先跟你確認。',
@@ -211,7 +218,8 @@
     q.rMiss.textContent = '最近三個月漏掉 3 次以上，代表現在的方法已經不太夠用了。';
     q.rTip.textContent = TIPS[answers[1]];
     q.rSafe.textContent = SAFE[answers[4]];
-    q.rLine.href = oa(t.name);
+    // 手機：打開 LINE 聊天室並預填類型名稱；電腦：開加好友頁（類型建議用 QR Code 掃描領取）
+    q.rLine.href = coarse.matches ? oa(t.name) : FRIEND;
     q.rQr.src = `assets/qr/qr-${t.key}.svg`;
     q.step.hidden = true;
     q.result.hidden = false;

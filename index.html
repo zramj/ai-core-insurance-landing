@@ -46,7 +46,7 @@
 <body>
 <!--
   AI CORE｜保險業 Landing Page（資料夾名稱沿用 V1 以保留 Git 連結）
-  對象：個人保險業務（頁尾提到團隊版）　賣點：LINE AI 助理　配色：晨光青綠
+  對象：個人保險業務　賣點：LINE AI 助理　配色：晨光青綠
   區塊：hero 聊天示範(#top) → 助理能做的事(#jobs) → 安心說明(#trust) → 1 分鐘檢測(#quiz) → 早鳥名單(#contact)
 -->
 <a class="skip-link" href="#main">跳到主要內容</a>
@@ -57,7 +57,7 @@
   <section class="hero" id="top" aria-labelledby="hero-title" data-enter>
     <header class="top wrap">
       <a class="top__logo" href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v3&amp;utm_content=header-logo" target="_blank" rel="noopener" aria-label="AI CORE 艾構數位科技 官方網站">
-        <img src="assets/ai-core-logo-horizontal.svg" alt="AI CORE 艾構數位科技" width="240" height="39">
+        <img src="assets/ai-core-logo-header.svg" alt="AI CORE 艾構數位科技" width="227" height="28">
       </a>
       <a class="top__link" href="#quiz">1 分鐘檢測</a>
     </header>
@@ -79,7 +79,6 @@
           <div class="chat" id="chat" aria-live="polite"></div>
           <div class="dock" id="dock"></div>
         </div>
-        <p class="hero__note">示範畫面，人名與內容皆為虛構</p>
       </div>
 
       <div class="hero__actions e-in" style="--d:3">
@@ -176,20 +175,18 @@
           <p class="r__diag" id="rDiag"></p>
           <div class="r__hours"><p>依你的回答，一年大約花</p><p class="r__num"><b id="rHours">200</b> 小時</p><p>在整理客戶資料和提醒（以每年 50 週計）。</p></div>
           <p class="r__miss" id="rMiss" hidden></p>
-          <div class="r__tip"><p class="r__tiplabel">這週可以先做</p><p id="rTip"></p></div>
+          <div class="r__tip"><p class="r__tiplabel">可以先試試</p><p id="rTip"></p></div>
           <p class="r__safe" id="rSafe"></p>
           <div class="r__line">
             <div class="r__linetext">
               <p class="r__linetitle">加 LINE，領取完整建議</p>
               <p>3 個不用換工具就能做的改善、一張整理好的圖卡，也會同時幫你登記早鳥名單。</p>
               <a class="btn btn--teal btn--block" id="rLine" href="https://lin.ee/yZvK4nw" target="_blank" rel="noopener">用 LINE 領取完整建議</a>
-              <p class="r__hint">打開後按「傳送」，就會自動收到你這一型的建議。</p>
             </div>
-            <figure class="r__qr"><img id="rQr" src="assets/qr/qr-line-archaeology.svg" alt="用手機掃描，在 LINE 領取建議" width="128" height="128"><figcaption>用手機掃描</figcaption></figure>
+            <figure class="r__qr"><img id="rQr" src="assets/qr/qr-line-archaeology.svg" alt="用手機掃描，在 LINE 領取建議" width="128" height="128"></figure>
           </div>
           <div class="r__foot">
             <button class="qback" type="button" id="qRestart">重新檢測</button>
-            <p class="r__note">結果依你的回答整理，是參考建議，不是評分。</p>
           </div>
         </div>
       </div>
@@ -200,26 +197,34 @@
 <!-- 05 早鳥名單 -->
 <footer class="closing" id="contact" aria-labelledby="close-title">
   <div class="wrap">
-    <p class="eyebrow">早鳥共創方案</p>
-    <h2 id="close-title" class="closing__title">一起把 AI 助理，<br>調整成你的工作方式。</h2>
-    <p class="closing__lead">我們正在找第一批保險業務一起使用。早鳥會用較優惠的方式導入，使用期間一起調整提醒方式和紀錄格式，名額有限，會依登記順序聯絡。</p>
-    <ul class="perks">
-      <li>專屬你的 LINE AI 助理</li>
-      <li>依你的習慣設定提醒和紀錄格式</li>
-      <li>使用期間一起調整，直到順手</li>
-    </ul>
-    <div class="closing__actions">
-      <a class="btn btn--coral" id="earlyLink" href="https://line.me/R/oaMessage/%40732ntowu/?%E5%8A%A0%E5%85%A5%E6%97%A9%E9%B3%A5%E5%90%8D%E5%96%AE" target="_blank" rel="noopener">用 LINE 加入早鳥名單</a>
-      <figure class="closing__qr"><img src="assets/qr/qr-earlybird.svg" alt="用手機掃描，用 LINE 加入早鳥名單" width="112" height="112" loading="lazy"><figcaption>用手機掃描加入</figcaption></figure>
+    <div class="closing__grid">
+      <div class="closing__text">
+        <p class="eyebrow">早鳥共創方案</p>
+        <h2 id="close-title" class="closing__title">一起把 AI 助理，<br>調整成你的工作方式。</h2>
+        <p class="closing__lead">我們正在找第一批保險業務一起使用。早鳥會用較優惠的方式導入，使用期間一起調整提醒方式和紀錄格式，名額有限，會依登記順序聯絡。</p>
+      </div>
+      <div class="closing__card">
+        <p class="closing__cardtitle">早鳥會得到</p>
+        <ul class="perks">
+          <li>專屬你的 LINE AI 助理</li>
+          <li>依你的習慣設定提醒和紀錄格式</li>
+          <li>使用期間一起調整，直到順手</li>
+        </ul>
+        <div class="closing__actions">
+          <a class="btn btn--coral" id="earlyLink" href="https://lin.ee/yZvK4nw" target="_blank" rel="noopener">用 LINE 加入早鳥名單</a>
+          <figure class="closing__qr"><img src="assets/qr/qr-friend.svg" alt="用手機掃描，加入 AI CORE 的 LINE 官方帳號" width="104" height="104" loading="lazy"></figure>
+        </div>
+      </div>
     </div>
-    <p class="closing__team">帶團隊嗎？也可以做團隊版，讓你看到全隊的待辦。直接在 LINE 告訴我們。</p>
     <div class="foot">
-      <a class="foot__logo" href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v3&amp;utm_content=footer-logo" target="_blank" rel="noopener"><span>by</span><img src="assets/ai-core-logo-horizontal.svg" alt="AI CORE 艾構數位科技 官方網站" width="240" height="39" loading="lazy"></a>
-      <nav class="foot__links" aria-label="官方網站">
-        <a href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v3&amp;utm_content=footer-link" target="_blank" rel="noopener">官方網站</a>
-        <a href="https://www.ai-core.si/privacy" target="_blank" rel="noopener">隱私權政策</a>
-      </nav>
-      <p class="foot__legal">© 2026 AI CORE 艾構數位科技。本頁為概念原型，示範畫面中的人名與內容皆為虛構。AI 助理功能依實際導入評估，不代表已上市產品。</p>
+      <a class="foot__logo" href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v3&amp;utm_content=footer-logo" target="_blank" rel="noopener"><span>by</span><img src="assets/ai-core-logo-header.svg" alt="AI CORE 艾構數位科技 官方網站" width="227" height="28" loading="lazy"></a>
+      <div class="foot__meta">
+        <nav class="foot__links" aria-label="官方網站">
+          <a href="https://www.ai-core.si/?utm_source=landing-page&amp;utm_medium=referral&amp;utm_campaign=insurance-v3&amp;utm_content=footer-link" target="_blank" rel="noopener">官方網站</a>
+          <a href="https://www.ai-core.si/privacy" target="_blank" rel="noopener">隱私權政策</a>
+        </nav>
+        <p class="foot__legal">© 2026 AI CORE</p>
+      </div>
     </div>
   </div>
 </footer>
